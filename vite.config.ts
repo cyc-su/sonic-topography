@@ -683,6 +683,8 @@ function qqMusicApiPlugin() {
       });
 
       server.middlewares.use('/api/qqmusic/url', async (req: any, res: any) => {
+        res.setHeader('Cache-Control', 'no-store');
+        res.setHeader('Pragma', 'no-cache');
         try {
           const requestUrl = new URL(req.url || '', 'http://localhost');
           const id = requestUrl.searchParams.get('id');
@@ -700,6 +702,8 @@ function qqMusicApiPlugin() {
       });
 
       server.middlewares.use('/api/qqmusic/audio', async (req: any, res: any) => {
+        res.setHeader('Cache-Control', 'no-store');
+        res.setHeader('Pragma', 'no-cache');
         try {
           const requestUrl = new URL(req.url || '', 'http://localhost');
           const id = requestUrl.searchParams.get('id');

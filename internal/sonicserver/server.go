@@ -469,6 +469,8 @@ func (s *Server) handleQqMusicLyric(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleQqMusicURL(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("Pragma", "no-cache")
 	id := strings.TrimSpace(r.URL.Query().Get("id"))
 	if id == "" {
 		writeJSON(w, http.StatusBadRequest, map[string]any{"error": "Missing id"})
@@ -483,6 +485,8 @@ func (s *Server) handleQqMusicURL(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleQqMusicAudio(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("Pragma", "no-cache")
 	id := strings.TrimSpace(r.URL.Query().Get("id"))
 	if id == "" {
 		writeJSON(w, http.StatusBadRequest, map[string]any{"error": "Missing id"})

@@ -715,11 +715,15 @@ export function UI({ theme, resolvedTheme, customThemes, activeCustomThemeId, th
     const requestCookie = isQqMusicCookieValid ? qqMusicCookie : '';
 
     try {
+      const songId = encodeURIComponent(song.id);
+      const playNonce = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
       const [urlResponse, lyricResponse] = await Promise.all([
-        fetch(`/api/qqmusic/url?id=${song.id}`, {
+        fetch(`/api/qqmusic/url?id=${songId}&play=${playNonce}`, {
+          cache: 'no-store',
           headers: createQqMusicCookieHeaders(requestCookie),
         }),
-        fetch(`/api/qqmusic/lyric?id=${song.id}`, {
+        fetch(`/api/qqmusic/lyric?id=${songId}`, {
+          cache: 'no-store',
           headers: createQqMusicCookieHeaders(requestCookie),
         }),
       ]);
@@ -736,7 +740,7 @@ export function UI({ theme, resolvedTheme, customThemes, activeCustomThemeId, th
       }
 
       engine.init();
-      engine.loadUrl(`/api/qqmusic/audio?id=${song.id}`);
+      engine.loadUrl(`/api/qqmusic/audio?id=${songId}&play=${playNonce}`);
       engine.play();
       setSearchStatus('');
       setShowSearchPanel(false);
