@@ -735,7 +735,7 @@ export function UI({ theme, resolvedTheme, customThemes, activeCustomThemeId, th
 
       if (!urlData.url) {
         setSearchStatus('这首歌可能需要 Cookie、会员或地区权限，正在尝试下一首...');
-        playFromQueue(1, song.id);
+        playFromQueue(1, song.id, queue);
         return;
       }
 
@@ -747,14 +747,14 @@ export function UI({ theme, resolvedTheme, customThemes, activeCustomThemeId, th
     } catch (error) {
       console.warn('Unable to load QqMusic song:', error);
       setSearchStatus('加载失败，正在尝试下一首...');
-      playFromQueue(1, song.id);
+      playFromQueue(1, song.id, queue);
     }
   };
 
   const getCurrentQueue = () => playQueue.length > 0 ? playQueue : activePlaylist?.songs || [];
 
-  const playFromQueue = (direction: 1 | -1, fromSongId = currentSongId) => {
-    const queue = getCurrentQueue();
+  const playFromQueue = (direction: 1 | -1, fromSongId = currentSongId, queueOverride?: QqMusicSong[]) => {
+    const queue = queueOverride?.length ? queueOverride : getCurrentQueue();
     if (queue.length === 0) return;
 
     let nextIndex = 0;
